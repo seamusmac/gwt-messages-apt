@@ -1,21 +1,18 @@
 package org.gwtproject.messages;
 
 import java.math.BigDecimal;
-import java.util.logging.Logger;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class App implements EntryPoint {
 
-	private static final Logger LOGGER = Logger.getLogger(App.class.getName());
-
 	public void onModuleLoad() {
 
-		LOGGER.info(IMessages.INSTANCE.THREE_STRINGS("12345678", "OLD_CASHBOX", "CB_NAME"));
-		
-		LOGGER.info(IMessages.INSTANCE.ONE_BIGDECIMAL(BigDecimal.valueOf(1)));
-		
-		LOGGER.info("OLDDDDDDDDDDDD.... " + OldGwtMessages.INSTANCE.ONE_BIGDECIMAL(BigDecimal.ZERO));
-
+		RootPanel.get().add(new MaterialLabel(IMessageFactory.INSTANCE.ONE_BIGDECIMAL(BigDecimal.valueOf(1.00))));
+		RootPanel.get().add(new TestComponent());
+		RootPanel.get().add(new MaterialLabel(IMessageFactory.INSTANCE.THREE_STRINGS("Road", "cat", "dog")));
+		RootPanel.get().add(new MaterialLabel(IMessageFactory.INSTANCE.ONE_STRING("very nice")));
+		RootPanel.get().add(new MaterialLabel(IMessageFactory.INSTANCE.DOUBLE_STRING("very nice ", "&GRAND")));
 	}
 }

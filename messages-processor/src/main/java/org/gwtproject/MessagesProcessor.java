@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,9 +25,7 @@ import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
-import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
@@ -40,6 +36,7 @@ import org.gwtproject.messages.Messages;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.CodeBlock.Builder;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -50,10 +47,8 @@ import com.squareup.javapoet.TypeSpec;
 public class MessagesProcessor extends AbstractProcessor {
 
 	private Messager messager;
-	private Types typeUtils;
 	private Filer filer;
 	private Elements elementUtils;
-	private Type type;
 
 	@Override
 	public Set<String> getSupportedAnnotationTypes() {
@@ -69,10 +64,8 @@ public class MessagesProcessor extends AbstractProcessor {
 	public synchronized void init(ProcessingEnvironment processingEnv) {
 		super.init(processingEnv);
 		this.messager = processingEnv.getMessager();
-		this.typeUtils = processingEnv.getTypeUtils();
 		this.filer = processingEnv.getFiler();
 		this.elementUtils = processingEnv.getElementUtils();
-		this.type = new Type(typeUtils, elementUtils);
 	}
 
 	@Override
@@ -177,7 +170,8 @@ public class MessagesProcessor extends AbstractProcessor {
 					.endControlFlow();
 		}
 
-		codeBuilder.addStatement("$T.out.println($S)", System.class, "Hello, JavaPoet!" + "System.getProperty(\"locale\")");
+		codeBuilder.addStatement("$T.out.println($S)", System.class,
+				"Hello, JavaPoet!" + "System.getProperty(\"locale\")");
 		codeBuilder.addStatement("throw new $T($L)", CouldNotLoadMessagesException.class,
 				"\"No matching implementation for [\"+System.getProperty(\"locale\")+\"] found\"");
 
@@ -203,6 +197,8 @@ public class MessagesProcessor extends AbstractProcessor {
 			return CodeBlock.builder().addStatement("return $L", propertyValue).build();
 		} else if ("java.lang.String".equals(returnTypeString)) {
 			return populateString(propertyValue, element);
+		} else if ("org.gwtproject.messages.MessageKeyArgs".equals(returnTypeString)) {
+			return populateMessageKeyArgs(propertyValue, element);
 		} else if ("java.lang.String[]".equals(returnTypeString)) {
 			return CodeBlock.builder()
 					.addStatement("$T args[] = ($T[]) cache.get(\"$L\")", String.class, String.class,
@@ -248,8 +244,24 @@ public class MessagesProcessor extends AbstractProcessor {
 			else
 				returnValue.append(m);
 		}
-		return CodeBlock.builder().addStatement("return $L", returnValue).build();
+		return CodeBlock.builder().addStatement("return $L", returnValue.toString()).build();
 
+	}
+
+	private CodeBlock populateMessageKeyArgs(String propertyValue, ExecutableElement element) {
+
+		Builder builder = CodeBlock.builder();
+
+		if (element.getParameters().size() > 0) {
+			StringBuilder params = new StringBuilder();
+			element.getParameters().forEach(p -> params.append(p.getSimpleName().toString() + ","));
+			params.deleteCharAt(params.length() - 1);
+			builder.addStatement("return new MessageKeyArgs(\"" + element.getSimpleName().toString() + "\", $T.asList("
+					+ params + ").toArray())", Arrays.class);
+			return builder.build();
+		}
+
+		return builder.add("return new MessageKeyArgs(\"" + element.getSimpleName().toString() + "\", null );").build();
 	}
 
 	private String asStringArrayElements(String propertyValue) {

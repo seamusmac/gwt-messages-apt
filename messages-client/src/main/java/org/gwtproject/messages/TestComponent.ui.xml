@@ -1,0 +1,13 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:c='urn:import:org.gwtproject.messages'>
+	
+	<ui:with type="org.gwtproject.messages.IMessageFactory" field="IMesg" />
+	
+	<g:HTMLPanel>
+	
+	<c:MaterialLabel text="{IMesg.getINSTANCE.SIMPLE}"></c:MaterialLabel>
+	</g:HTMLPanel>
+</ui:UiBinder>

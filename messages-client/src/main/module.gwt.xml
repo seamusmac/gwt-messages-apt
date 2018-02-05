@@ -11,5 +11,8 @@
   <extend-property name = "locale" values ="fr,en"/>
 
   <!--<set-property name="locale" value="en"/>-->
-
+<inherits name="gwt.material.design.GwtMaterialWithJQueryDebug"/>
+<!--     <INHERITS NAME="GWT.MATERIAL.DESIGN.THEMES.THEMEBLUE"/> -->
+<!--     <INHERITS NAME="GWT.MATERIAL.DESIGN.ADDINS.GWTMATERIALADDINSDEBUG"/> -->
+<!--     <INHERITS NAME="GWT.MATERIAL.DESIGN.GWTMATERIALTABLEDEBUG"/> -->
 </module>

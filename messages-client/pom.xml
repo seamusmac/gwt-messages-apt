@@ -1,67 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.gwtproject</groupId>
-    <artifactId>messages</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
+	<parent>
+		<groupId>org.gwtproject</groupId>
+		<artifactId>messages</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
-  <artifactId>messages-client</artifactId>
-  <packaging>gwt-app</packaging>
+	<artifactId>messages-client</artifactId>
+	<packaging>gwt-app</packaging>
+	<properties>
+		<gwt-material.version>2.0.1</gwt-material.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.github.gwtmaterialdesign</groupId>
+			<artifactId>gwt-material</artifactId>
+			<version>${gwt-material.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.gwtmaterialdesign</groupId>
+			<artifactId>gwt-material-themes</artifactId>
+			<version>${gwt-material.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.gwtmaterialdesign</groupId>
+			<artifactId>gwt-material-addins</artifactId>
+			<version>${gwt-material.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.gwtmaterialdesign</groupId>
+			<artifactId>gwt-material-table</artifactId>
+			<version>${gwt-material.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>messages-shared</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>messages-shared</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.gwtproject</groupId>
+			<artifactId>messages-sample</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.gwtproject</groupId>
+			<artifactId>messages-sample</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<!--<dependency> -->
+		<!--<groupId>org.gwtproject</groupId> -->
+		<!--<artifactId>messages-processor</artifactId> -->
+		<!--<version>1.0-SNAPSHOT</version> -->
+		<!--<scope>provided</scope> -->
+		<!--</dependency> -->
+	</dependencies>
 
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>messages-shared</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>messages-shared</artifactId>
-      <version>${project.version}</version>
-      <classifier>sources</classifier>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.gwtproject</groupId>
-      <artifactId>messages-sample</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gwtproject</groupId>
-      <artifactId>messages-sample</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <classifier>sources</classifier>
-    </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.gwtproject</groupId>-->
-      <!--<artifactId>messages-processor</artifactId>-->
-      <!--<version>1.0-SNAPSHOT</version>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>net.ltgt.gwt.maven</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <configuration>
-          <moduleName>org.gwtproject.messsages.App</moduleName>
-          <moduleShortName>messages</moduleShortName>
-          <logLevel>DEBUG</logLevel>
-        </configuration>
-      </plugin>
-      <plugin>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>net.ltgt.gwt.maven</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<configuration>
+					<moduleName>org.gwtproject.messsages.App</moduleName>
+					<moduleShortName>messages</moduleShortName>
+					<logLevel>DEBUG</logLevel>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.6</version>
@@ -76,6 +99,6 @@
 					</webResources>
 				</configuration>
 			</plugin>
-    </plugins>
-  </build>
+		</plugins>
+	</build>
 </project>
