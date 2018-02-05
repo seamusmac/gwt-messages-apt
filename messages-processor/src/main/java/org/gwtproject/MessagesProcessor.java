@@ -170,8 +170,6 @@ public class MessagesProcessor extends AbstractProcessor {
 					.endControlFlow();
 		}
 
-		codeBuilder.addStatement("$T.out.println($S)", System.class,
-				"Hello, JavaPoet!" + "System.getProperty(\"locale\")");
 		codeBuilder.addStatement("throw new $T($L)", CouldNotLoadMessagesException.class,
 				"\"No matching implementation for [\"+System.getProperty(\"locale\")+\"] found\"");
 
